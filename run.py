@@ -10,5 +10,5 @@ class HFCFWindow(QMainWindow):
 
 app = QApplication([])
 window = HFCFWindow()
-window.showMaximized()
+window.showFullScreen()
 app.exec()
