@@ -1,0 +1,13 @@
+"Hot Fuzz Control FUCK" - because I'm tired of remaking this software over and over again, a lot of names are taken so I have no idea what to pick
+
+This software is incredibly customized to *me*, so don't expect it to be friendly to *you*
+
+It shows you a full screen of stats with a press of a button, and when typing on that same screen, you can invoke commands
+
+Two modes of command search and invocation:
+* "HOT" - matching only by big letters and sequentially, invoking on complete match
+* "FUZZ" - fuzzy search, only manual invocation
+
+The stats will only be visible when the mode is "HOT" and no characterrs are entered. "/" for switching modes
+
+How to implement via GUI libraries (likely): one field for the input, list under input, overlay with stats when no input and mode is "HOT"
