@@ -1,14 +1,14 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit
 
 class HFCFWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        button = QPushButton("test")
+        inputfield = QLineEdit()
 
-        self.setCentralWidget(button)
+        self.setCentralWidget(inputfield)
 
 app = QApplication([])
 window = HFCFWindow()
-window.show()
+window.showMaximized()
 app.exec()
