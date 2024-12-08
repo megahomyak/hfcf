@@ -10,4 +10,4 @@ Two modes of command search and invocation:
 
 The stats will only be visible when the mode is "HOT" and no characterrs are entered. "/" for switching modes
 
-How to implement via GUI libraries (likely): one field for the input, list under input, overlay with stats when no input and mode is "HOT"
+How to implement via GUI libraries (likely): one field for the input, list under input, overlay with stats when no input and mode is "HOT". Or maybe the input will be an overlay, not the stats. Whatever, what's gonna be easier will get implemented (probably the former)
