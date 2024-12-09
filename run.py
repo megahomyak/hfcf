@@ -56,7 +56,7 @@ class HFCFWindow(QMainWindow):
                 self.set_prompt("")
                 return
         else:
-            results = list(fuzzyfinder(prompt, self.modules, ignore_case=False))
+            results = list(fuzzyfinder(prompt, self.modules))
         self.prompt = prompt
         text = ""
         if self.is_hot:
