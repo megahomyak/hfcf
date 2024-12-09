@@ -1,16 +1,14 @@
 "Hot Fuzz Control FUCK" - because I'm tired of remaking this software over and over again, a lot of names are taken so I have no idea what to pick
 
-Run "make" before running `poetry run python run.py` to execute the script!! (and don't forget to `poetry install --no-root`)
+Will probably only work on Linux, I haven't tested this on Windows
 
-This software is incredibly customized to *me*, so don't expect it to be friendly to *you*
+"HOT" traverses a tree of uppercase letters, while "FUZZ" is just a fuzzy search. "HOT" runs the executable on full match
 
-It shows you a full screen of stats with a press of a button, and when typing on that same screen, you can invoke commands
-
-Two modes of command search and invocation:
-* "HOT" - matching only by big letters and sequentially, invoking on complete match
-* "FUZZ" - fuzzy search, only manual invocation
-
-The stats will only be visible when the mode is "HOT" and no characterrs are entered. "/" for switching modes
-
-IMPLEMENTATION NOTE:
-How to implement via GUI libraries (likely): one field for the input, list under input, overlay with stats when no input and mode is "HOT". Or maybe the input will be an overlay, not the stats. Whatever, what's gonna be easier will get implemented (probably the former)
+How to use this:
+* `make` to get the `invoke` named pipe and the `invoke.o` binary
+* Bind some key on your keyboard to run `invoke.o` with the path to `invoke` as its only argument
+* Set `poetry run python run.py`, ran from the same directory where the file is, to run in the background (use `kill` to kill it, simple keyboard shortcuts will not work except for "ctrl"+"\"
+* Put some modules into `modules` if you want. Uppercase letters in names of binaries will be used for "HOT"
+* Press the keyboard button you've configured whenever you want to open this
+* Use `/` to switch between modes
+* Default Russian keymap gets converted to a default US English Colemak, you can change it in the source code of the program
