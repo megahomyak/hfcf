@@ -17,10 +17,10 @@ class HFCFWindow(QMainWindow):
         self.text.setFont(font)
         self.text.setStyleSheet("color: white;")
         self.invocation.connect(self.process_invocation)
-        self.prompt = ""
-        self.redo_text()
-    def redo_text(self):
-        text = self.prompt + "\n\na"
+        self.set_prompt("")
+    def set_prompt(self, prompt):
+        self.prompt = prompt
+        text = prompt + "\n\na"
         self.text.setText(text)
         self.text.adjustSize()
     def process_invocation(self):
@@ -30,11 +30,11 @@ class HFCFWindow(QMainWindow):
             self.showFullScreen()
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_Escape:
-            self.prompt = ""
-            self.redo_text()
+            self.set_prompt("")
+        elif event.key() == Qt.Key.Key_Backspace:
+            self.set_prompt(self.prompt[:-1])
         else:
-            self.prompt += event.text()
-            self.redo_text()
+            self.set_prompt(self.prompt + event.text().upper())
 
 def check_for_invocation():
     while True:
