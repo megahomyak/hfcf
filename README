@@ -7,7 +7,7 @@ Will probably only work on Linux, I haven't tested this on Windows
 How to use this:
 * `make` to get the `invoke` named pipe and the `invoke.o` binary
 * Bind some key on your keyboard to run `invoke.o` with the path to `invoke` as its only argument
-* Set `poetry run python run.py`, ran from the same directory where the file is, to run in the background (use `kill` to kill it, simple keyboard shortcuts will not work except for "ctrl"+"\"
+* Set `poetry run python run.py`, ran from the same directory where the file is, to run in the background (use `kill` to kill it, simple keyboard shortcuts will not work except for "ctrl"+"\"; if you want to make it autostart on KDE, you can invoke `generate_autostart.sh` with the path to the "same directory" mentioned above as its only argument)
 * Put some modules into `modules` if you want. Uppercase letters in names of binaries will be used for "HOT"
 * Press the keyboard button you've configured whenever you want to open this
 * Use `/` to switch between modes
