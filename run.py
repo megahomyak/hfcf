@@ -28,14 +28,19 @@ class HFCFWindow(QMainWindow):
         self.text.setFont(font)
         self.text.setStyleSheet("color: white;")
         self.modules = os.listdir("modules")
-        self.uppers = {}
+        self.uppers = []
         for module in self.modules:
             uppers = ""
             for c in module:
                 if c.isupper():
                     uppers += c
             if uppers:
-                self.uppers[uppers] = module
+                for existing_uppers, existing_module in self.uppers:
+                    if existing_uppers.startswith(uppers) or uppers.startswith(existing_uppers):
+                        raise Exception(f"Collision: {module} and {existing_module}")
+                self.uppers.append(uppers, module)
+            else:
+                raise Exception(f"No uppercase characters: {module}")
         self.is_hot = True
         self.invocation.connect(self.process_invocation)
         self.set_prompt("")
@@ -44,17 +49,15 @@ class HFCFWindow(QMainWindow):
         if not prompt:
             results = self.modules
         elif self.is_hot:
-            try:
-                module = self.uppers[prompt]
-            except KeyError:
-                for uppers, module in self.uppers.items():
-                    if uppers.startswith(prompt):
+            for uppers, module in self.uppers:
+                if uppers.startswith(prompt):
+                    if uppers == prompt:
+                        subprocess.Popen([os.path.join("modules", module)], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        self.hide()
+                        self.set_prompt("")
+                        return
+                    else:
                         results.append(module)
-            else:
-                subprocess.Popen([os.path.join("modules", module)], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                self.hide()
-                self.set_prompt("")
-                return
         else:
             results = list(fuzzyfinder(prompt, self.modules))
         self.prompt = prompt
