@@ -1,30 +1,48 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QLineEdit
-from PyQt6.QtCore import Qt
-import socket
+from PyQt6.QtWidgets import QApplication, QMainWindow, QLabel, QSizePolicy
+from PyQt6.QtCore import Qt, pyqtSignal
+import threading
 
-invoker = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-invoker.bind("invoke")
-try:
-    class HFCFWindow(QMainWindow):
-        def __init__(self):
-            super().__init__()
-            self.inputfield = QLineEdit(self)
-            font = self.inputfield.font()
-            font.setPointSize(30)
-            self.inputfield.setFont(font)
-        def resizeEvent(self, event):
-            self.inputfield.resize(self.width() - 30, 60)
-            self.inputfield.move(15, 15)
-            super().resizeEvent(event)
-        def keyPressEvent(self, event):
-            if event.key() == Qt.Key.Key_Escape:
-                self.hide()
-            else:
-                super().keyPressEvent(event)
+class HFCFWindow(QMainWindow):
+    invocation=pyqtSignal()
 
-    app = QApplication([])
-    window = HFCFWindow()
-    window.show()
-    app.exec()
-finally:
-    invoker.close()
+    def __init__(self):
+        super().__init__()
+        self.text = QLabel(self)
+        self.text.setTextFormat(Qt.TextFormat.PlainText)
+        self.text.move(15, 15)
+        self.setStyleSheet("background-color: black;")
+        font = self.text.font()
+        font.setPointSize(30)
+        font.setFamily("Monospace")
+        self.text.setFont(font)
+        self.text.setStyleSheet("color: white;")
+        self.invocation.connect(self.process_invocation)
+        self.prompt = ""
+        self.redo_text()
+    def redo_text(self):
+        text = self.prompt + "\n\na"
+        self.text.setText(text)
+        self.text.adjustSize()
+    def process_invocation(self):
+        if self.isVisible():
+            self.hide()
+        else:
+            self.showFullScreen()
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_Escape:
+            self.prompt = ""
+            self.redo_text()
+        else:
+            self.prompt += event.text()
+            self.redo_text()
+
+def check_for_invocation():
+    while True:
+        with open("invoke") as f:
+            f.read()
+            window.invocation.emit()
+
+app = QApplication([])
+window = HFCFWindow()
+threading.Thread(target=check_for_invocation).start()
+app.exec()
