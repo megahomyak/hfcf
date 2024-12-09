@@ -38,7 +38,7 @@ class HFCFWindow(QMainWindow):
                 for existing_uppers, existing_module in self.uppers:
                     if existing_uppers.startswith(uppers) or uppers.startswith(existing_uppers):
                         raise Exception(f"Collision: {module} and {existing_module}")
-                self.uppers.append(uppers, module)
+                self.uppers.append((uppers, module))
             else:
                 raise Exception(f"No uppercase characters: {module}")
         self.is_hot = True
