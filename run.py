@@ -5,6 +5,14 @@ import os
 from fuzzyfinder import fuzzyfinder
 import subprocess
 
+def set_proc_name(newname): # Stolen from https://stackoverflow.com/a/923034
+    from ctypes import cdll, byref, create_string_buffer
+    libc = cdll.LoadLibrary('libc.so.6')
+    buff = create_string_buffer(len(newname)+1)
+    buff.value = newname.encode()
+    libc.prctl(15, byref(buff), 0, 0, 0)
+set_proc_name("hot_fuzz_control_fuck")
+
 low_map = {
     k: v
     for k, v in zip(

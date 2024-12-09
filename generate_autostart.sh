@@ -1,13 +1,15 @@
 #!/bin/sh
-DIR="$1"
-if [ "$DIR" = "" ]; then
->&2 echo "Directory wasn't passed"
-else
-cat > ~/.config/autostart/hfcf.desktop << EOF
-[Desktop Entry]
-Exec=sh -c 'cd ${DIR} && poetry run python run.py'
-Terminal=false
-Type=Application
-Name=hfcf
+mkdir -p ~/.config/systemd/user
+cat > ~/.config/systemd/user/hfcf.service << EOF
+[Unit]
+
+[Service]
+ExecStart=$(which poetry) run python run.py
+WorkingDirectory=$(pwd)
+
+[Install]
+WantedBy=graphical-session.target
 EOF
-fi
+systemctl --user daemon-reload
+systemctl --user enable hfcf
+systemctl --user start hfcf
