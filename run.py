@@ -76,8 +76,8 @@ class HFCFWindow(QMainWindow):
         if self.isVisible():
             self.hide()
         else:
-            self.set_prompt("")
             self.is_hot = True
+            self.set_prompt("")
             self.showFullScreen()
     def keyPressEvent(self, event):
         new = low_map.get(event.text().lower(), event.text())
