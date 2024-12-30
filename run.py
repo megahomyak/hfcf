@@ -13,6 +13,13 @@ low_map = {
     )
 }
 
+def listfiles(dir):
+    result = []
+    for file in os.listdir(dir):
+        if os.path.isfile(os.path.join(dir, file)):
+            result.append(file)
+    return result
+
 class HFCFWindow(QMainWindow):
     invocation=pyqtSignal()
 
@@ -27,7 +34,7 @@ class HFCFWindow(QMainWindow):
         font.setFamily("Monospace")
         self.text.setFont(font)
         self.text.setStyleSheet("color: white;")
-        self.modules = os.listdir("modules")
+        self.modules = listfiles("modules")
         self.uppers = []
         for module in self.modules:
             uppers = ""
@@ -52,7 +59,8 @@ class HFCFWindow(QMainWindow):
             for uppers, module in self.uppers:
                 if uppers.startswith(prompt):
                     if uppers == prompt:
-                        subprocess.Popen([os.path.join("modules", module)], stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        module = os.path.realpath(os.path.join("modules", module))
+                        subprocess.Popen([module], stdin=subprocess.DEVNULL, cwd="modules")
                         self.hide()
                         self.set_prompt("")
                         return
@@ -94,6 +102,8 @@ class HFCFWindow(QMainWindow):
             self.set_prompt(self.prompt + new)
 
 def main():
+    del os.environ["VIRTUAL_ENV"]
+
     def check_for_invocation():
         while True:
             with open("invoke") as f:

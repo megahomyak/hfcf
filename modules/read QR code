@@ -1,0 +1,3 @@
+#!/bin/sh
+cd 'read QR code dir'
+poetry run python run.py
